@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Financiamiento</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    /* Ajustes generales */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: rgb(163, 152, 140);
+      background-color: transparent; /* Fondo transparente */
+    }
+
+    .container {
+      padding: 20px;
+      margin: 0 auto;
+      width: 420px;
+    }
+
+    h2, label, p, strong, span {
+      color: rgb(163, 152, 140);
+      font-size: 1.5rem;
+      margin: 13px 0px;
+    }
+
+    .box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 13px 0;
+    }
+
+    .btn {
+      background-color: rgb(163, 152, 140);
+      border: none;
+      color: white;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    select {
+      background-color: rgb(163, 152, 140);
+      border: none;
+      color: white;
+      font-size: 1rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    select:hover {
+      opacity: 0.8;
+    }
+
+    .select-container {
+      position: relative;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .select-container::after {
+      content: "▼";
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: white;
+      font-size: 0.8rem;
+    }
+
+    .resultado p {
+      margin: 13px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Nombre del Producto -->
+    <div>
+        <label for="producto">Nombre del producto:</label>
+        <div class="select-container">
+          <select id="producto"></select>
+        </div>
+    </div>
+
+    <!-- Precio del producto -->
+    <p><span>Precio del producto:</span> <span id="precioProducto">0€</span></p>
+
+    <div class="box">
+      <span>Número de cuotas:</span>
+      <button class="btn" id="decrementar">-</button>
+      <span id="numCuotas" style="margin: 0 10px;">3</span>
+      <button class="btn" id="incrementar">+</button>
+    </div>
+
+    <div class="resultado" id="resultado">
+      <p><span>Pagarás:</span> <span id="pagaras">0€ / mes</span></p>
+      <p><span>Total a pagar:</span> <span id="totalPagar">0€</span></p>
+      <p><span>Total Intereses:</span> <span id="totalInteres">0€</span></p>
+      <p><em>TAE 19,95</em></p>
+      <p style="font-size: 12px;"><em>*Valores referenciales</em></p>
+    </div>
+  </div>
+
+  <script>
+    // JSON de productos
+    const productos = [
+      { nombre: "Producto A", precio: 350 },
+      { nombre: "Producto B", precio: 600 },
+      { nombre: "Producto C", precio: 900 },
+      { nombre: "Producto D", precio: 1250 }
+    ];
+
+    // Tabla de cuotas
+    const cuotas = [
+      { desde: 100.01, hasta: 250, c3: 5, c5: 10, c10: 20, c12: 25 },
+      { desde: 250.01, hasta: 400, c3: 13, c5: 25, c10: 35, c12: 40 },
+      { desde: 400.01, hasta: 550, c3: 20, c5: 30, c10: 40, c12: 45 },
+      { desde: 700.01, hasta: 850, c3: 30, c5: 40, c10: 50, c12: 60 },
+      { desde: 1000.01, hasta: 1250, c3: 42, c5: 55, c10: 80, c12: 95 }
+    ];
+
+    let cuotasDisponibles = [3, 5, 10, 12];
+    let cuotaSeleccionada = 3;
+    let precioProducto = 0;
+
+    // Cargar solo nombres de productos
+    productos.forEach((producto, index) => {
+      $('#producto').append(`<option value="${index}">${producto.nombre}</option>`);
+    });
+
+    // Función para actualizar resultados
+    function calcularResultados() {
+      const productoSeleccionado = productos[$('#producto').val()];
+      precioProducto = productoSeleccionado.precio;
+      $('#precioProducto').text(`${precioProducto}€`);
+
+      let interes = 0;
+      cuotas.forEach(rango => {
+        if (precioProducto >= rango.desde && precioProducto <= rango.hasta) {
+          switch (cuotaSeleccionada) {
+            case 3: interes = rango.c3; break;
+            case 5: interes = rango.c5; break;
+            case 10: interes = rango.c10; break;
+            case 12: interes = rango.c12; break;
+          }
+        }
+      });
+
+      let totalAPagar = precioProducto + interes;
+      let valorCuota = (totalAPagar / cuotaSeleccionada).toFixed(2);
+
+      $('#numCuotas').text(cuotaSeleccionada);
+      $('#pagaras').text(`${valorCuota}€ / mes`);
+      $('#totalPagar').text(`${totalAPagar}€`);
+      $('#totalInteres').text(`${interes}€`);
+    }
+
+    // Eventos de botones
+    $('#incrementar').click(function() {
+      let index = cuotasDisponibles.indexOf(cuotaSeleccionada);
+      if (index < cuotasDisponibles.length - 1) {
+        cuotaSeleccionada = cuotasDisponibles[index + 1];
+        calcularResultados();
+      }
+    });
+
+    $('#decrementar').click(function() {
+      let index = cuotasDisponibles.indexOf(cuotaSeleccionada);
+      if (index > 0) {
+        cuotaSeleccionada = cuotasDisponibles[index - 1];
+        calcularResultados();
+      }
+    });
+
+    $('#producto').change(function() {
+      cuotaSeleccionada = 3; // Reiniciar cuotas
+      calcularResultados();
+    });
+
+    $(document).ready(function() {
+      $('#producto').trigger('change');
+    });
+  </script>
+</body>
+</html>
