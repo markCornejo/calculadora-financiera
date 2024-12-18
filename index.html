@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Financiamiento</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Tipografía Silka Light -->
+  <link href="https://fonts.googleapis.com/css2?family=Silka:wght@300&display=swap" rel="stylesheet">
   <style>
     /* Ajustes generales */
     * {
@@ -14,15 +16,18 @@
     }
 
     body {
-      font-family: Arial, sans-serif;
-      color: rgb(163, 152, 140);
+      font-family: 'Silka', Arial, sans-serif;
+      color: rgb(183, 169, 154);
       background-color: transparent; /* Fondo transparente */
     }
 
     .container {
       padding: 20px;
       margin: 0 auto;
-      width: 420px;
+      width: 500px;
+      border: 2px solid rgb(228, 223, 212); /* Borde con color */
+      border-radius: 10px; /* Borde redondeado */
+      box-shadow: 3px 3px 5px rgb(228, 223, 212);
     }
 
     h2, label, p, strong, span {
@@ -40,7 +45,7 @@
 
     .btn {
       background-color: rgb(163, 152, 140);
-      border: none;
+      border: 1px solid rgb(228, 223, 212);
       color: white;
       font-size: 18px;
       width: 40px;
@@ -57,7 +62,7 @@
 
     select {
       background-color: rgb(163, 152, 140);
-      border: none;
+      border: 1px solid rgb(228, 223, 212);
       color: white;
       font-size: 1rem;
       padding: 5px 10px;
@@ -65,7 +70,7 @@
       outline: none;
       cursor: pointer;
       appearance: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     select:hover {
@@ -89,38 +94,113 @@
       font-size: 0.8rem;
     }
 
+    /* Estilos generales de filas y columnas */
+    .fila {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px; /* Espacio entre columnas */
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .col-izquierda {
+      flex: 1;
+      text-align: left;
+    }
+
+    .col-derecha {
+      flex: 1;
+      text-align: right;
+    }
+
+    /* Estilos específicos para el contenedor de botones */
+    .sel-cuotas {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; /* Alinea los botones a la derecha */
+      gap: 10px; /* Espacio entre botones y número */
+    }
+
+    .btn {
+      background-color: rgb(163, 152, 140);
+      border: none;
+      color: white;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
     .resultado p {
-      margin: 13px 0;
+      margin: 0;
+      font-size: 1rem;
+      color: rgb(163, 152, 140);
+    }
+
+    .border-a{
+      background-color: rgb(228, 223, 212);
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- Nombre del Producto -->
-    <div>
+    <div class="fila border-a">
+      <div class="col-izquierda">
         <label for="producto">Nombre del producto:</label>
+      </div>
+      <div class="col-derecha">
         <div class="select-container">
           <select id="producto"></select>
         </div>
+      </div>
     </div>
 
     <!-- Precio del producto -->
-    <p><span>Precio del producto:</span> <span id="precioProducto">0€</span></p>
-
-    <div class="box">
-      <span>Número de cuotas:</span>
-      <button class="btn" id="decrementar">-</button>
-      <span id="numCuotas" style="margin: 0 10px;">3</span>
-      <button class="btn" id="incrementar">+</button>
+    <div class="fila">
+      <div class="col-izquierda">
+        <p><span>Número de cuotas:</span></p>
+      </div>
+      <div class="col-derecha">
+        <div class="sel-cuotas">
+          <button class="btn" id="decrementar">-</button>
+          <span id="numCuotas" style="margin: 0 10px;">3</span>
+          <button class="btn" id="incrementar">+</button>
+        </div>
+      </div>
     </div>
 
     <div class="resultado" id="resultado">
-      <p><span>Pagarás:</span> <span id="pagaras">0€ / mes</span></p>
-      <p><span>Total a pagar:</span> <span id="totalPagar">0€</span></p>
-      <p><span>Total Intereses:</span> <span id="totalInteres">0€</span></p>
-      <p><em>TAE 19,95</em></p>
-      <p style="font-size: 12px;"><em>*Valores referenciales</em></p>
+      <div class="fila border-a">
+        <div class="col-izquierda">
+          <p><span>Pagarás:</span></p>
+        </div>
+        <div class="col-derecha">
+          <p><span id="pagaras">0€ / mes</span></p>
+        </div>
+      </div>
+      <div class="fila border-a">
+        <div class="col-izquierda">
+          <p><span>Total a pagar:</span></p>
+        </div>
+        <div class="col-derecha">
+          <p><span id="totalPagar">0€</span></p>
+        </div>
+      </div>
+      <div class="fila">
+        <p style="font-size: 12px;"><em>*Valores referenciales</em></p>
+      </div>
     </div>
+    
   </div>
 
   <script>
