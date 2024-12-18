@@ -5,123 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Financiamiento</title>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <!-- Tipografía Silka Light -->
   <link href="https://fonts.googleapis.com/css2?family=Silka:wght@300&display=swap" rel="stylesheet">
   <style>
-    /* Ajustes generales */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
+    h2, label, p, strong, span {
+      font-size: 1.5rem;
+      margin: 13px 0px;
+    }
     body {
       font-family: 'Silka', Arial, sans-serif;
       color: rgb(183, 169, 154);
-      background-color: transparent; /* Fondo transparente */
+      background-color: transparent;
     }
-
     .container {
       padding: 20px;
       margin: 0 auto;
       width: 500px;
-      border: 2px solid rgb(228, 223, 212); /* Borde con color */
-      border-radius: 10px; /* Borde redondeado */
+      border: 2px solid rgb(228, 223, 212);
+      border-radius: 10px;
       box-shadow: 3px 3px 5px rgb(228, 223, 212);
     }
-
-    h2, label, p, strong, span {
-      color: rgb(163, 152, 140);
-      font-size: 1.5rem;
-      margin: 13px 0px;
-    }
-
-    .box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 13px 0;
-    }
-
-    .btn {
-      background-color: rgb(163, 152, 140);
-      border: 1px solid rgb(228, 223, 212);
-      color: white;
-      font-size: 18px;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .btn:hover {
-      opacity: 0.8;
-    }
-
-    select {
-      background-color: rgb(163, 152, 140);
-      border: 1px solid rgb(228, 223, 212);
-      color: white;
-      font-size: 1rem;
-      padding: 5px 10px;
-      border-radius: 5px;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    select:hover {
-      opacity: 0.8;
-    }
-
-    .select-container {
-      position: relative;
-      margin-bottom: 20px;
-      display: inline-block;
-    }
-
-    .select-container::after {
-      content: "▼";
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      pointer-events: none;
-      color: white;
-      font-size: 0.8rem;
-    }
-
-    /* Estilos generales de filas y columnas */
     .fila {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px; /* Espacio entre columnas */
+      gap: 10px;
       padding: 15px;
       margin-top: 10px;
     }
-
-    .col-izquierda {
-      flex: 1;
-      text-align: left;
-    }
-
-    .col-derecha {
-      flex: 1;
-      text-align: right;
-    }
-
-    /* Estilos específicos para el contenedor de botones */
+    .col-izquierda { text-align: left; }
+    .col-derecha { text-align: right; }
     .sel-cuotas {
       display: flex;
       align-items: center;
-      justify-content: flex-end; /* Alinea los botones a la derecha */
-      gap: 10px; /* Espacio entre botones y número */
+      justify-content: flex-end;
+      gap: 10px;
     }
-
     .btn {
       background-color: rgb(163, 152, 140);
       border: none;
@@ -134,18 +57,8 @@
       cursor: pointer;
       border-radius: 5px;
     }
-
-    .btn:hover {
-      opacity: 0.8;
-    }
-
-    .resultado p {
-      margin: 0;
-      font-size: 1rem;
-      color: rgb(163, 152, 140);
-    }
-
-    .border-a{
+    .btn:hover { opacity: 0.8; }
+    .border-a {
       background-color: rgb(228, 223, 212);
       border-radius: 5px;
     }
@@ -153,90 +66,89 @@
 </head>
 <body>
   <div class="container">
-    <!-- Nombre del Producto -->
     <div class="fila border-a">
-      <div class="col-izquierda">
-        <label for="producto">Nombre del producto:</label>
-      </div>
-      <div class="col-derecha">
-        <div class="select-container">
-          <select id="producto"></select>
-        </div>
-      </div>
+      <div class="col-izquierda"><label>Nombre del producto:</label></div>
+      <div class="col-derecha"><div id="productoTexto"></div></div>
     </div>
 
-    <!-- Precio del producto -->
     <div class="fila">
-      <div class="col-izquierda">
-        <p><span>Número de cuotas:</span></p>
-      </div>
+      <div class="col-izquierda"><p><span>Número de cuotas:</span></p></div>
       <div class="col-derecha">
         <div class="sel-cuotas">
           <button class="btn" id="decrementar">-</button>
-          <span id="numCuotas" style="margin: 0 10px;">3</span>
+          <span id="numCuotas">3</span>
           <button class="btn" id="incrementar">+</button>
         </div>
       </div>
     </div>
 
-    <div class="resultado" id="resultado">
+    <div class="resultado">
       <div class="fila border-a">
-        <div class="col-izquierda">
-          <p><span>Pagarás:</span></p>
-        </div>
-        <div class="col-derecha">
-          <p><span id="pagaras">0€ / mes</span></p>
-        </div>
+        <div class="col-izquierda"><p>Pagarás:</p></div>
+        <div class="col-derecha"><p id="pagaras">0€ / mes</p></div>
       </div>
       <div class="fila border-a">
-        <div class="col-izquierda">
-          <p><span>Total a pagar:</span></p>
-        </div>
-        <div class="col-derecha">
-          <p><span id="totalPagar">0€</span></p>
-        </div>
-      </div>
-      <div class="fila">
-        <p style="font-size: 12px;"><em>*Valores referenciales</em></p>
+        <div class="col-izquierda"><p>Total a pagar:</p></div>
+        <div class="col-derecha"><p id="totalPagar">0€</p></div>
       </div>
     </div>
-    
   </div>
 
   <script>
-    // JSON de productos
-    const productos = [
-      { nombre: "Producto A", precio: 350 },
-      { nombre: "Producto B", precio: 600 },
-      { nombre: "Producto C", precio: 900 },
-      { nombre: "Producto D", precio: 1250 }
-    ];
-
-    // Tabla de cuotas
     const cuotas = [
-      { desde: 100.01, hasta: 250, c3: 5, c5: 10, c10: 20, c12: 25 },
-      { desde: 250.01, hasta: 400, c3: 13, c5: 25, c10: 35, c12: 40 },
-      { desde: 400.01, hasta: 550, c3: 20, c5: 30, c10: 40, c12: 45 },
-      { desde: 700.01, hasta: 850, c3: 30, c5: 40, c10: 50, c12: 60 },
-      { desde: 1000.01, hasta: 1250, c3: 42, c5: 55, c10: 80, c12: 95 }
+      { desde: 59.00, hasta: 100.00, c3: 3, c5: 6, c10: 12, c12: 14 },
+      { desde: 100.01, hasta: 250.00, c3: 5, c5: 10, c10: 20, c12: 25 },
+      { desde: 250.01, hasta: 400.00, c3: 13, c5: 25, c10: 35, c12: 40 },
+      { desde: 400.01, hasta: 550.00, c3: 20, c5: 30, c10: 40, c12: 45 },
+      { desde: 550.01, hasta: 700.00, c3: 25, c5: 35, c10: 45, c12: 55 },
+      { desde: 700.01, hasta: 850.00, c3: 30, c5: 40, c10: 50, c12: 60 },
+      { desde: 850.01, hasta: 1000.00, c3: 35, c5: 45, c10: 60, c12: 70 },
+      { desde: 1000.01, hasta: 1250.00, c3: 42, c5: 55, c10: 80, c12: 95 },
+      { desde: 1250.01, hasta: 1500.00, c3: 50, c5: 75, c10: 95, c12: 120 }
+    ];
+    const productos = [
+      { nombre: "Producto A", precio: 150 },
+      { nombre: "Producto B", precio: 300 },
+      { nombre: "Producto C", precio: 500 },
+      { nombre: "Producto D", precio: 800 },
+      { nombre: "Producto E", precio: 1200 }
     ];
 
     let cuotasDisponibles = [3, 5, 10, 12];
     let cuotaSeleccionada = 3;
     let precioProducto = 0;
 
-    // Cargar solo nombres de productos
-    productos.forEach((producto, index) => {
-      $('#producto').append(`<option value="${index}">${producto.nombre}</option>`);
+    $(document).ready(function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productoId = urlParams.get('producto');
+
+      if (productoId && productoId >= 0 && productoId < productos.length) {
+        const productoSeleccionado = productos[productoId];
+        precioProducto = productoSeleccionado.precio;
+        $('#productoTexto').text(productoSeleccionado.nombre);
+        calcularResultados();
+      }
+
+      $('#incrementar').click(function () {
+        const index = cuotasDisponibles.indexOf(cuotaSeleccionada);
+        if (index < cuotasDisponibles.length - 1) {
+          cuotaSeleccionada = cuotasDisponibles[index + 1];
+          calcularResultados();
+        }
+      });
+
+      $('#decrementar').click(function () {
+        const index = cuotasDisponibles.indexOf(cuotaSeleccionada);
+        if (index > 0) {
+          cuotaSeleccionada = cuotasDisponibles[index - 1];
+          calcularResultados();
+        }
+      });
     });
 
-    // Función para actualizar resultados
     function calcularResultados() {
-      const productoSeleccionado = productos[$('#producto').val()];
-      precioProducto = productoSeleccionado.precio;
-      $('#precioProducto').text(`${precioProducto}€`);
-
       let interes = 0;
+
       cuotas.forEach(rango => {
         if (precioProducto >= rango.desde && precioProducto <= rango.hasta) {
           switch (cuotaSeleccionada) {
@@ -248,40 +160,13 @@
         }
       });
 
-      let totalAPagar = precioProducto + interes;
-      let valorCuota = (totalAPagar / cuotaSeleccionada).toFixed(2);
+      const totalAPagar = precioProducto + interes;
+      const valorCuota = (totalAPagar / cuotaSeleccionada).toFixed(2);
 
       $('#numCuotas').text(cuotaSeleccionada);
       $('#pagaras').text(`${valorCuota}€ / mes`);
       $('#totalPagar').text(`${totalAPagar}€`);
-      $('#totalInteres').text(`${interes}€`);
     }
-
-    // Eventos de botones
-    $('#incrementar').click(function() {
-      let index = cuotasDisponibles.indexOf(cuotaSeleccionada);
-      if (index < cuotasDisponibles.length - 1) {
-        cuotaSeleccionada = cuotasDisponibles[index + 1];
-        calcularResultados();
-      }
-    });
-
-    $('#decrementar').click(function() {
-      let index = cuotasDisponibles.indexOf(cuotaSeleccionada);
-      if (index > 0) {
-        cuotaSeleccionada = cuotasDisponibles[index - 1];
-        calcularResultados();
-      }
-    });
-
-    $('#producto').change(function() {
-      cuotaSeleccionada = 3; // Reiniciar cuotas
-      calcularResultados();
-    });
-
-    $(document).ready(function() {
-      $('#producto').trigger('change');
-    });
   </script>
 </body>
 </html>
