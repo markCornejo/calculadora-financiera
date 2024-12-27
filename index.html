@@ -67,7 +67,7 @@
 <body>
   <div class="container">
     <div class="fila border-a">
-      <div class="col-izquierda"><label>Nombre del producto:</label></div>
+      <div class="col-izquierda"><label>Nombre del tratamiento:</label></div>
       <div class="col-derecha"><div id="productoTexto"></div></div>
     </div>
 
@@ -106,12 +106,61 @@
       { desde: 1000.01, hasta: 1250.00, c3: 42, c5: 55, c10: 80, c12: 95 },
       { desde: 1250.01, hasta: 1500.00, c3: 50, c5: 75, c10: 95, c12: 120 }
     ];
-    const productos = [
-      { nombre: "Producto A", precio: 150 },
-      { nombre: "Producto B", precio: 300 },
-      { nombre: "Producto C", precio: 500 },
-      { nombre: "Producto D", precio: 800 },
-      { nombre: "Producto E", precio: 1200 }
+    const tratamientos = [
+      { id: 1, nombre: "NEUROMODULADORES", precio: 150 },
+      { id: 2, nombre: "BRUXISMO", precio: 400 },
+      { id: 3, nombre: "SONRISA GINGIVAL", precio: 250 },
+      { id: 4, nombre: "HIPERHIDROSIS", precio: 700 },
+      { id: 5, nombre: "RELLENO DE LABIOS", precio: 350 },
+      { id: 6, nombre: "RELLENO DE PÓMULOS", precio: 350 },
+      { id: 7, nombre: "RELLENO DE MENTÓN", precio: 400 },
+      { id: 8, nombre: "RELLENO DE OJERAS", precio: 350 },
+      { id: 9, nombre: "RELLENO DE SURCO NASOGENIANO", precio: 350 },
+      { id: 10, nombre: "RELLENO DE CÓDIGO DE BARRAS", precio: 350 },
+      { id: 11, nombre: "HIDRATACIÓN PROFUNDA", precio: 300 },
+      { id: 12, nombre: "MARCACIÓN MANDIBULAR", precio: 800 },
+      { id: 13, nombre: "HILOS TENSORES", precio: 400 },
+      { id: 14, nombre: "FULL FACE", precio: 140 },
+      { id: 15, nombre: "HILOS MONOFILAMENTO", precio: 350 },
+      { id: 16, nombre: "POLINUCLEÓTIDOS CONTORNO DE OJOS, FACIAL O CORPORAL", precio: 300 },
+      { id: 17, nombre: "INDUCTORES DE COLÁGENO", precio: 450 },
+      { id: 18, nombre: "DERMAPEN MÉDICO", precio: 150 },
+      { id: 19, nombre: "VITAMINAS FACIALES", precio: 150 },
+      { id: 20, nombre: "PEELING QUÍMICO", precio: 150 },
+      { id: 21, nombre: "LÁSER PRODEEP", precio: 300 },
+      { id: 22, nombre: "IPL", precio: 300 },
+      { id: 23, nombre: "RESECCIÓN DE LESIONES BENIGNAS", precio: 100 },
+      { id: 24, nombre: "CARBOXITERAPIA FACIAL", precio: 70 },
+      { id: 25, nombre: "MESOTERAPIA CORPORAL", precio: 80 },
+      { id: 26, nombre: "CARBOXITERAPIA CORPORAL", precio: 80 },
+      { id: 27, nombre: "RITUAL PERFECT ZQIN", precio: 180 },
+      { id: 28, nombre: "RITUAL CELULITIS", precio: 1500 },
+      { id: 29, nombre: "RITUAL FLACIDEZ", precio: 1000 },
+      { id: 30, nombre: "RITUAL GRASA LOCALIZADA", precio: 1380 },
+      { id: 31, nombre: "RITUAL DOBLE MENTÓN", precio: 590 },
+      { id: 32, nombre: "RITUAL EFECTO FLASH", precio: 290 },
+      { id: 33, nombre: "RITUAL EMBARAZO", precio: 550 },
+      { id: 34, nombre: "RITUAL OJERA PIGMENTADA", precio: 810 },
+      { id: 35, nombre: "RITUAL OJERA ENVEJECIDA", precio: 1150 },
+      { id: 36, nombre: "RITUAL REJUVENECIMIENTO MANOS", precio: 1150 },
+      { id: 37, nombre: "RITUAL CAPILAR", precio: 600 },
+      { id: 38, nombre: "RITUAL MELASMA", precio: 1600 },
+      { id: 39, nombre: "HYDRAFACIAL", precio: 0 },
+      { id: 40, nombre: "HYDRAFACIAL SIGNATURE", precio: 150 },
+      { id: 41, nombre: "HYDRAFACIAL DELUXE", precio: 199 },
+      { id: 42, nombre: "HYDRAFACIAL PLATINUM", precio: 240 },
+      { id: 43, nombre: "HYDRAFACIAL DIAMOND", precio: 250 },
+      { id: 44, nombre: "HYDRAFACIAL CAPILAR KERAVIVE PLUS", precio: 325 },
+      { id: 45, nombre: "HYDRAFACIAL PERK LIPS", precio: 70 },
+      { id: 46, nombre: "LIMPIEZA PROFUNDA MÉDICA", precio: 80 },
+      { id: 47, nombre: "HERA FACIAL", precio: 110 },
+      { id: 48, nombre: "HERA CORPORAL", precio: 110 },
+      { id: 49, nombre: "MADEROTERAPIA", precio: 70 },
+      { id: 50, nombre: "NOVAPRESS", precio: 50 },
+      { id: 51, nombre: "METALOTERAPIA", precio: 70 },
+      { id: 52, nombre: "MASAJE RELAJANTE / DRENANTE / CIRCULATORIO", precio: 70 },
+      { id: 53, nombre: "MICROPIGMENTACIÓN CEJAS", precio: 0 },
+      { id: 54, nombre: "MICROPIGMENTACIÓN DE LABIO", precio: 0 }
     ];
 
     let cuotasDisponibles = [3, 5, 10, 12];
@@ -122,10 +171,10 @@
       const urlParams = new URLSearchParams(window.location.search);
       const productoId = urlParams.get('producto');
 
-      if (productoId && productoId >= 0 && productoId < productos.length) {
-        const productoSeleccionado = productos[productoId];
-        precioProducto = productoSeleccionado.precio;
-        $('#productoTexto').text(productoSeleccionado.nombre);
+      if (productoId && productoId >= 1 && productoId <= tratamientos.length) {
+        const tratamientoSeleccionado = tratamientos.find(t => t.id == productoId);
+        precioProducto = tratamientoSeleccionado.precio;
+        $('#productoTexto').text(tratamientoSeleccionado.nombre);
         calcularResultados();
       }
 
